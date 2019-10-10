@@ -1,0 +1,39 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: console-toolkit
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: console-toolkit
+      annotations:
+        iam.amazonaws.com/role: datalake-dev-stg
+    spec:
+      containers:
+      - name: console-toolkit
+        imagePullPolicy: Always
+        image: wuwenmin1991/console-toolkit-gpu:latest
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 32Gi
+            nvidia.com/gpu: 1
+          requests:
+            cpu: 2000m
+            memory: 8Gi
+        command: ["/bootstrap.sh"]
+        volumeMounts:
+          - name: console-volume
+            mountPath: /Workspace
+            readOnly: false
+        workingDir: /Workspace
+      volumes:
+        - name: console-volume
+          persistentVolumeClaim:
+            claimName: toolkit-volume
+      nodeSelector:
+        kubelet.kubernetes.io/group: gpu

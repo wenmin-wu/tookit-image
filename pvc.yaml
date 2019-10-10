@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    environment: dev
+    volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/aws-ebs
+  labels:
+    app: toolkit-volume
+  name: toolkit-volume
+  namespace: econs-workspace
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: gp2

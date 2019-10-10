@@ -70,4 +70,6 @@ RUN apt-get -y install zsh \
     && echo 'source ${HOME}/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' >> $HOME/.zshrc \
     && echo "if [ -e ~/.bashrc ]; then\n    source ~/.bashrc\nfi" >> $HOME/.zshrc
 
+ADD ./bootstrap.sh /bootstrap.sh
+RUN chmod 755 ./bootstrap.sh
 ENTRYPOINT ["/bin/zsh"]
