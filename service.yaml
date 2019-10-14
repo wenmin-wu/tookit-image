@@ -1,0 +1,22 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: console-toolkit
+spec:
+  type: NodePort
+  selector:
+    app: console-toolkit
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8888
+---
+apiVersion: getambassador.io/v1
+kind:  Mapping
+metadata:
+  name: playground-console-toolkit
+spec:
+  host: console-toolkit-playground.ingress.dev.grabds.com
+  prefix: /
+  rewrite: /
+  service: console-toolkit.playground

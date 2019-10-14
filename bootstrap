@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# these two vars can be configured as env var by users
+arg=$1
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+get_time(){
+    echo $(date +%H:%M:%S).$(($(date +%N) / 1000000))
+}
+
+log_info() {
+    prefix=$1
+    content=$2
+    printf "${GREEN}[I $(get_time) ${prefix}]${NC} ${content}\n"
+}
+
+log_warn() {
+    prefix=$1
+    content=$2
+    printf "${YELLOW}[I $(get_time) ${prefix}]${NC} ${content}\n"
+}
+
+log_error() {
+    prefix=$1
+    content=$2
+    printf "${RED}[I $(get_time) ${prefix}]${NC} ${content}\n"
+}
+
+prefix="Bootstrap"
+log_info ${prefix} "starting..."
+if [ ! -z $USER_BASHRC ] && [ -f $USER_BASHRC ]; then
+    log_info ${prefix} "sourcing statements in $USER_BASHRC ..."
+    source $USER_BASHRC
+fi
+if [ ! -z $USER_BOOTSTRAP  ] && [ -f $USER_BOOTSTRAP ]; then
+    log_info ${prefix} "executing statements in $USER_BOOTSTRAP ..."
+    bash $USER_BOOTSTRAP
+fi
+if [[ $arg == "block" ]]; then
+    tail -f /dev/null
+fi
+log_info ${prefix} "finished."

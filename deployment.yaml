@@ -19,20 +19,27 @@ spec:
         image: wuwenmin1991/console-toolkit:latest
         resources:
           limits:
-            cpu: 2000m
+            cpu: 4000m
             memory: 32Gi
           requests:
             cpu: 2000m
             memory: 8Gi
-        command: ["/bootstrap.sh"]
         volumeMounts:
           - name: console-volume
-            mountPath: /Workspace
+            mountPath: /home/jovyan/work
             readOnly: false
-        workingDir: /Workspace
+        workingDir: /home/jovyan/work
+        ports:
+        - containerPort: 8888
+        command: ["start-notebook.sh"]
+        args: [
+            "--NotebookApp.password='sha1:268a0bccbec0:572e98fc05d4d359317cc92c04ff4f6c43b21843'",
+            "--ContentsManager.allow_hidden=True"
+            ]
+        env:
+          - name: SHELL
+            value: "zsh"
       volumes:
         - name: console-volume
           persistentVolumeClaim:
             claimName: toolkit-volume
-      nodeSelector:
-        kubelet.kubernetes.io/group: gpu

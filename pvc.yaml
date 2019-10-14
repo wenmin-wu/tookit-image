@@ -7,7 +7,7 @@ metadata:
   labels:
     app: toolkit-volume
   name: toolkit-volume
-  namespace: econs-workspace
+  namespace: playground
 spec:
   accessModes:
   - ReadWriteOnce
