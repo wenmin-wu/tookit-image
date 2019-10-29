@@ -34,7 +34,7 @@ RUN rm -rf /usr/local/share/vim /usr/bin/vim \
     && cd .. && rm -rf vim
 
 ## install spf13
-ADD ./.spf13-vim-3 /home/$NB_USER/.spf13-vim-3
+ADD ./spf13-vim-3 /home/$NB_USER/.spf13-vim-3
 RUN cd /home/$NB_USER && bash .spf13-vim-3/bootstrap.sh
 
 ## install tabnine
